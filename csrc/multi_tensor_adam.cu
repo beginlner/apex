@@ -399,12 +399,14 @@ void multi_tensor_adam_cuda(
     // Assume single type across p,g,m1,m2 now
     DISPATCH_DOUBLE_FLOAT_HALF_AND_BFLOAT(
       tensor_lists[0][0].scalar_type(), 0, "adam",
+      DISPATCH_DOUBLE_FLOAT_HALF_AND_BFLOAT(
+        tensor_lists[2][0].scalar_type(), 1, "adam",
       multi_tensor_apply<4>(
         (int64_t) BLOCK_SIZE,
         (int64_t) chunk_size,
         noop_flag,
         tensor_lists,
-        AdamFunctor<scalar_t_0, float, int64_t>(),
+        AdamFunctor<scalar_t_0, scalar_t_1, int64_t>(),
         beta1,
         beta2,
         bias_correction1,
@@ -412,17 +414,19 @@ void multi_tensor_adam_cuda(
         epsilon,
         lr,
         (adamMode_t) mode,
-        weight_decay); )
+        weight_decay); ))
   } else {
       // Assume single type across p,g,m1,m2 now
       DISPATCH_DOUBLE_FLOAT_HALF_AND_BFLOAT(
         tensor_lists[0][0].scalar_type(), 0, "adam",
+      DISPATCH_DOUBLE_FLOAT_HALF_AND_BFLOAT(
+        tensor_lists[2][0].scalar_type(), 1, "adam",
         multi_tensor_apply<4>(
           BLOCK_SIZE,
           chunk_size,
           noop_flag,
           tensor_lists,
-          AdamFunctor<scalar_t_0, float, int32_t>(),
+          AdamFunctor<scalar_t_0, scalar_t_1, int32_t>(),
           beta1,
           beta2,
           bias_correction1,
@@ -430,7 +434,7 @@ void multi_tensor_adam_cuda(
           epsilon,
           lr,
           (adamMode_t) mode,
-          weight_decay); )
+          weight_decay); ))
   }
   AT_CUDA_CHECK(cudaGetLastError());
 }

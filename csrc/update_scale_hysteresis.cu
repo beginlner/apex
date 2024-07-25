@@ -56,9 +56,9 @@ at::Tensor update_scale_hysteresis_cuda(at::Tensor current_scale,
                                         const int hysteresis)
 {
   update_scale_hysteresis_cuda_kernel<<<1, 1, 0, at::cuda::getCurrentCUDAStream()>>>(
-    current_scale.mutable_data_ptr<float>(),
-    growth_tracker.mutable_data_ptr<int>(),
-    hysteresis_tracker.mutable_data_ptr<int>(),
+    current_scale.data_ptr<float>(),
+    growth_tracker.data_ptr<int>(),
+    hysteresis_tracker.data_ptr<int>(),
     found_inf.const_data_ptr<float>(),
     growth_factor,
     backoff_factor,

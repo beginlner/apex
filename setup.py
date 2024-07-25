@@ -175,7 +175,7 @@ if "--distributed_lamb" in sys.argv:
 if "--cuda_ext" in sys.argv:
     sys.argv.remove("--cuda_ext")
     raise_if_cuda_home_none("--cuda_ext")
-    check_cuda_torch_binary_vs_bare_metal(CUDA_HOME)
+    # check_cuda_torch_binary_vs_bare_metal(CUDA_HOME)
 
     ext_modules.append(
         CUDAExtension(
@@ -208,184 +208,184 @@ if "--cuda_ext" in sys.argv:
             },
         )
     )
-    ext_modules.append(
-        CUDAExtension(
-            name="syncbn",
-            sources=["csrc/syncbn.cpp", "csrc/welford.cu"],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": ["-O3"] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="syncbn",
+    #         sources=["csrc/syncbn.cpp", "csrc/welford.cu"],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": ["-O3"] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="fused_layer_norm_cuda",
-            sources=["csrc/layer_norm_cuda.cpp", "csrc/layer_norm_cuda_kernel.cu"],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": ["-maxrregcount=50", "-O3", "--use_fast_math"] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="fused_layer_norm_cuda",
+    #         sources=["csrc/layer_norm_cuda.cpp", "csrc/layer_norm_cuda_kernel.cu"],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": ["-maxrregcount=50", "-O3", "--use_fast_math"] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="mlp_cuda",
-            sources=["csrc/mlp.cpp", "csrc/mlp_cuda.cu"],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": ["-O3"] + version_dependent_macros,
-            },
-        )
-    )
-    ext_modules.append(
-        CUDAExtension(
-            name="fused_dense_cuda",
-            sources=["csrc/fused_dense.cpp", "csrc/fused_dense_cuda.cu"],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": ["-O3"] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="mlp_cuda",
+    #         sources=["csrc/mlp.cpp", "csrc/mlp_cuda.cu"],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": ["-O3"] + version_dependent_macros,
+    #         },
+    #     )
+    # )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="fused_dense_cuda",
+    #         sources=["csrc/fused_dense.cpp", "csrc/fused_dense_cuda.cu"],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": ["-O3"] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="scaled_upper_triang_masked_softmax_cuda",
-            sources=[
-                "csrc/megatron/scaled_upper_triang_masked_softmax.cpp",
-                "csrc/megatron/scaled_upper_triang_masked_softmax_cuda.cu",
-            ],
-            include_dirs=[os.path.join(this_dir, "csrc")],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": [
-                    "-O3",
-                    "-U__CUDA_NO_HALF_OPERATORS__",
-                    "-U__CUDA_NO_HALF_CONVERSIONS__",
-                    "--expt-relaxed-constexpr",
-                    "--expt-extended-lambda",
-                ] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="scaled_upper_triang_masked_softmax_cuda",
+    #         sources=[
+    #             "csrc/megatron/scaled_upper_triang_masked_softmax.cpp",
+    #             "csrc/megatron/scaled_upper_triang_masked_softmax_cuda.cu",
+    #         ],
+    #         include_dirs=[os.path.join(this_dir, "csrc")],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": [
+    #                 "-O3",
+    #                 "-U__CUDA_NO_HALF_OPERATORS__",
+    #                 "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                 "--expt-relaxed-constexpr",
+    #                 "--expt-extended-lambda",
+    #             ] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="generic_scaled_masked_softmax_cuda",
-            sources=[
-                "csrc/megatron/generic_scaled_masked_softmax.cpp",
-                "csrc/megatron/generic_scaled_masked_softmax_cuda.cu",
-            ],
-            include_dirs=[os.path.join(this_dir, "csrc")],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": [
-                    "-O3",
-                    "-U__CUDA_NO_HALF_OPERATORS__",
-                    "-U__CUDA_NO_HALF_CONVERSIONS__",
-                    "--expt-relaxed-constexpr",
-                    "--expt-extended-lambda",
-                ] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="generic_scaled_masked_softmax_cuda",
+    #         sources=[
+    #             "csrc/megatron/generic_scaled_masked_softmax.cpp",
+    #             "csrc/megatron/generic_scaled_masked_softmax_cuda.cu",
+    #         ],
+    #         include_dirs=[os.path.join(this_dir, "csrc")],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": [
+    #                 "-O3",
+    #                 "-U__CUDA_NO_HALF_OPERATORS__",
+    #                 "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                 "--expt-relaxed-constexpr",
+    #                 "--expt-extended-lambda",
+    #             ] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="scaled_masked_softmax_cuda",
-            sources=["csrc/megatron/scaled_masked_softmax.cpp", "csrc/megatron/scaled_masked_softmax_cuda.cu"],
-            include_dirs=[os.path.join(this_dir, "csrc")],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": [
-                    "-O3",
-                    "-U__CUDA_NO_HALF_OPERATORS__",
-                    "-U__CUDA_NO_HALF_CONVERSIONS__",
-                    "--expt-relaxed-constexpr",
-                    "--expt-extended-lambda",
-                ] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="scaled_masked_softmax_cuda",
+    #         sources=["csrc/megatron/scaled_masked_softmax.cpp", "csrc/megatron/scaled_masked_softmax_cuda.cu"],
+    #         include_dirs=[os.path.join(this_dir, "csrc")],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": [
+    #                 "-O3",
+    #                 "-U__CUDA_NO_HALF_OPERATORS__",
+    #                 "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                 "--expt-relaxed-constexpr",
+    #                 "--expt-extended-lambda",
+    #             ] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="scaled_softmax_cuda",
-            sources=["csrc/megatron/scaled_softmax.cpp", "csrc/megatron/scaled_softmax_cuda.cu"],
-            include_dirs=[os.path.join(this_dir, "csrc")],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": [
-                    "-O3",
-                    "-U__CUDA_NO_HALF_OPERATORS__",
-                    "-U__CUDA_NO_HALF_CONVERSIONS__",
-                    "--expt-relaxed-constexpr",
-                    "--expt-extended-lambda",
-                ] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="scaled_softmax_cuda",
+    #         sources=["csrc/megatron/scaled_softmax.cpp", "csrc/megatron/scaled_softmax_cuda.cu"],
+    #         include_dirs=[os.path.join(this_dir, "csrc")],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": [
+    #                 "-O3",
+    #                 "-U__CUDA_NO_HALF_OPERATORS__",
+    #                 "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                 "--expt-relaxed-constexpr",
+    #                 "--expt-extended-lambda",
+    #             ] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    ext_modules.append(
-        CUDAExtension(
-            name="fused_rotary_positional_embedding",
-            sources=[
-                "csrc/megatron/fused_rotary_positional_embedding.cpp",
-                "csrc/megatron/fused_rotary_positional_embedding_cuda.cu",
-            ],
-            include_dirs=[os.path.join(this_dir, "csrc")],
-            extra_compile_args={
-                "cxx": ["-O3"] + version_dependent_macros,
-                "nvcc": [
-                    "-O3",
-                    "-U__CUDA_NO_HALF_OPERATORS__",
-                    "-U__CUDA_NO_HALF_CONVERSIONS__",
-                    "--expt-relaxed-constexpr",
-                    "--expt-extended-lambda",
-                ] + version_dependent_macros,
-            },
-        )
-    )
+    # ext_modules.append(
+    #     CUDAExtension(
+    #         name="fused_rotary_positional_embedding",
+    #         sources=[
+    #             "csrc/megatron/fused_rotary_positional_embedding.cpp",
+    #             "csrc/megatron/fused_rotary_positional_embedding_cuda.cu",
+    #         ],
+    #         include_dirs=[os.path.join(this_dir, "csrc")],
+    #         extra_compile_args={
+    #             "cxx": ["-O3"] + version_dependent_macros,
+    #             "nvcc": [
+    #                 "-O3",
+    #                 "-U__CUDA_NO_HALF_OPERATORS__",
+    #                 "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                 "--expt-relaxed-constexpr",
+    #                 "--expt-extended-lambda",
+    #             ] + version_dependent_macros,
+    #         },
+    #     )
+    # )
 
-    if bare_metal_version >= Version("11.0"):
+    # if bare_metal_version >= Version("11.0"):
 
-        cc_flag = []
-        cc_flag.append("-gencode")
-        cc_flag.append("arch=compute_70,code=sm_70")
-        cc_flag.append("-gencode")
-        cc_flag.append("arch=compute_80,code=sm_80")
-        if bare_metal_version >= Version("11.1"):
-            cc_flag.append("-gencode")
-            cc_flag.append("arch=compute_86,code=sm_86")
-        if bare_metal_version >= Version("11.8"):
-            cc_flag.append("-gencode")
-            cc_flag.append("arch=compute_90,code=sm_90")
+    #     cc_flag = []
+    #     cc_flag.append("-gencode")
+    #     cc_flag.append("arch=compute_70,code=sm_70")
+    #     cc_flag.append("-gencode")
+    #     cc_flag.append("arch=compute_80,code=sm_80")
+    #     if bare_metal_version >= Version("11.1"):
+    #         cc_flag.append("-gencode")
+    #         cc_flag.append("arch=compute_86,code=sm_86")
+    #     if bare_metal_version >= Version("11.8"):
+    #         cc_flag.append("-gencode")
+    #         cc_flag.append("arch=compute_90,code=sm_90")
 
-        ext_modules.append(
-            CUDAExtension(
-                name="fused_weight_gradient_mlp_cuda",
-                include_dirs=[os.path.join(this_dir, "csrc")],
-                sources=[
-                    "csrc/megatron/fused_weight_gradient_dense.cpp",
-                    "csrc/megatron/fused_weight_gradient_dense_cuda.cu",
-                    "csrc/megatron/fused_weight_gradient_dense_16bit_prec_cuda.cu",
-                ],
-                extra_compile_args={
-                    "cxx": ["-O3"] + version_dependent_macros,
-                    "nvcc": [
-                        "-O3",
-                        "-U__CUDA_NO_HALF_OPERATORS__",
-                        "-U__CUDA_NO_HALF_CONVERSIONS__",
-                        "--expt-relaxed-constexpr",
-                        "--expt-extended-lambda",
-                        "--use_fast_math",
-                    ] + version_dependent_macros + cc_flag,
-                },
-            )
-        )
+    #     ext_modules.append(
+    #         CUDAExtension(
+    #             name="fused_weight_gradient_mlp_cuda",
+    #             include_dirs=[os.path.join(this_dir, "csrc")],
+    #             sources=[
+    #                 "csrc/megatron/fused_weight_gradient_dense.cpp",
+    #                 "csrc/megatron/fused_weight_gradient_dense_cuda.cu",
+    #                 "csrc/megatron/fused_weight_gradient_dense_16bit_prec_cuda.cu",
+    #             ],
+    #             extra_compile_args={
+    #                 "cxx": ["-O3"] + version_dependent_macros,
+    #                 "nvcc": [
+    #                     "-O3",
+    #                     "-U__CUDA_NO_HALF_OPERATORS__",
+    #                     "-U__CUDA_NO_HALF_CONVERSIONS__",
+    #                     "--expt-relaxed-constexpr",
+    #                     "--expt-extended-lambda",
+    #                     "--use_fast_math",
+    #                 ] + version_dependent_macros + cc_flag,
+    #             },
+    #         )
+    #     )
 
 if "--permutation_search" in sys.argv:
     sys.argv.remove("--permutation_search")
